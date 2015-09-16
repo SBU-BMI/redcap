@@ -245,6 +245,7 @@ var RedcapJS = (function (URL) {
 		exportArms: exportArms,
 		exportInstrumentEventMappings: exportInstrumentEventMappings,
 		exportUsers: exportUsers,
-		exportVersion: exportVersion
+		exportVersion: exportVersion,
+		redcapAPICall: redcapAPICall
 	};
 });

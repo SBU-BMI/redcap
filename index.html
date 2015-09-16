@@ -18,8 +18,15 @@ redcap.exportRecords(
 	function(data) {
 			console.log("success");
 			console.log(data);
-		},
-		{}
+		}
+);
+
+redcap.exportEvents(
+	function(data) {
+			console.log("success");
+			console.log(data);
+		}
+		,{ arms: [2] }
 );
 
 </script>
