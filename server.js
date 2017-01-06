@@ -1,7 +1,7 @@
 console.log('index.js started at '+Date());
 
 var http = require('http');
-const PORT=8080;
+const PORT= process.env.PORT || 8080;
 function handleRequest(request, response){
     response.end('It Works!! Path Hit: ' + request.url);
 }
