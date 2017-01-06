@@ -1,29 +1,251 @@
-console.log('redcap.js loaded')
+var RedcapJS = (function (URL) {	
+	console.log('redcap.js loaded');
 
-redcap=function(){}
+	function login() {
+		var loginPrompt = window.prompt("Please enter your REDCap API Token for the server located at " + URL,"REDCapToken");
+		if (loginPrompt != null) {
+			if(loginPrompt.length>0){
+				sessionStorage.setItem('REDCapToken',loginPrompt)
+			}
+		}
+		else {
+			
+		}
+	}
+	
+	function exportRecords(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "record";
+		}
+		if (!redcapParams.hasOwnProperty("format")) {
+			redcapParams.format = "json";
+		}	
 
-redcap.buildUI=function(id){
-    if(!id){id='redCapDiv'}
-    redcap.id=id
-    redCapDiv.innerHTML=':-)'
-    redcap.login()
-}
+		redcapAPICall(redcapParams, callBack);
+	}
+	
+	function exportReports(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "report";
+		}
+		if (!redcapParams.hasOwnProperty("format")) {
+			redcapParams.format = "json";
+		}
 
+		redcapAPICall(redcapParams, callBack);
+	}
+	
+	function importRecords(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "record";
+		}
+		if (!redcapParams.hasOwnProperty("format")) {
+			redcapParams.format = "json";
+		}
 
-redcap.login=function(){
-    var lg = document.createElement('div')
-    lg.id='loginREDCapDiv'
-    lg.innerHTML='<form autocomplete="on" onsubmit="return false"><h4>API connection</h4><table><tr><td>URL :&nbsp;</td><td><input id="loginREDCapURL" autocomplete="on" value="https://redcap.stonybrookmedicine.edu/redcap/api/" size=50></td></tr><tr><td>KEY :&nbsp;</td><td><input id="loginREDCapKey" type="password" size=30> <input id="loginREDCapCheck" type="checkbox"> save</td></tr></table>&nbsp;<p><input type="submit" id="loginREDCapSubmit" value="Connect"></p></form>'
-    var div = document.getElementById(redcap.id)
-    div.appendChild(lg)
-    loginREDCapSubmit.onclick=function(){
-        redcap.loginThen()
-    }
-}
+		redcapAPICall(redcapParams, callBack);
+	}
+	
+	function exportMetadata(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "metadata";
+		}
+		if (!redcapParams.hasOwnProperty("format")) {
+			redcapParams.format = "json";
+		}
 
-redcap.loginThen=function(){
-    if(loginREDCapKey.value.length>0){
-        sessionStorage.setItem('REDCapKey',loginREDCapKey.value.length)
-    }
+		redcapAPICall(redcapParams, callBack);
+	}
 
-}
+	function exportFile(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "file";
+		}
+		if (!redcapParams.hasOwnProperty("action")) {
+			redcapParams.action = "export";
+		}
+
+		redcapAPICall(redcapParams, callBack);
+	}
+	
+	function importFile(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "file";
+		}
+		if (!redcapParams.hasOwnProperty("action")) {
+			redcapParams.action = "import";
+		}
+
+		redcapAPICall(redcapParams, callBack);
+	}
+	
+	function deleteFile(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "file";
+		}
+		if (!redcapParams.hasOwnProperty("action")) {
+			redcapParams.action = "delete";
+		}
+
+		redcapAPICall(redcapParams, callBack);
+	}
+
+	function exportInstruments(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "instrument";
+		}
+		if (!redcapParams.hasOwnProperty("format")) {
+			redcapParams.format = "json";
+		}
+
+		redcapAPICall(redcapParams, callBack);
+	}
+
+	function exportEvents(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "event";
+		}
+		if (!redcapParams.hasOwnProperty("format")) {
+			redcapParams.format = "json";
+		}
+
+		redcapAPICall(redcapParams, callBack);
+	}
+	
+	function exportArms(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "arm";
+		}
+		if (!redcapParams.hasOwnProperty("format")) {
+			redcapParams.format = "json";
+		}
+
+		redcapAPICall(redcapParams, callBack);
+	}
+	
+	function exportInstrumentEventMappings(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "formEventMapping";
+		}
+		if (!redcapParams.hasOwnProperty("format")) {
+			redcapParams.format = "json";
+		}
+
+		redcapAPICall(redcapParams, callBack);
+	}
+
+	function exportUsers(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "user";
+		}
+		if (!redcapParams.hasOwnProperty("format")) {
+			redcapParams.format = "json";
+		}
+
+		redcapAPICall(redcapParams, callBack);
+	}
+
+	function exportVersion(callBack, redcapParams) {
+		if (redcapParams == undefined || redcapParams == null) {
+			redcapParams = {};
+		}
+		
+		redcapParams.token = sessionStorage.REDCapToken;
+		if (!redcapParams.hasOwnProperty("content")) {
+			redcapParams.content = "version";
+		}
+		
+		redcapAPICall(redcapParams, callBack);
+	}
+
+	function redcapAPICall(redcapParams, callBack) {
+		$.ajax(
+			URL,
+			{
+				"data": redcapParams,
+				"method": "post",
+				"success": function(data) {
+					callBack(data);
+				}
+			}
+		);
+	}
+	
+	return {
+		login: login,
+		exportRecords: exportRecords,
+		exportReports: exportReports,
+		importRecords: importRecords,
+		exportMetadata: exportMetadata,
+		exportFile: exportFile,
+		importFile: importFile,
+		deleteFile: deleteFile,
+		exportInstruments: exportInstruments,
+		exportEvents: exportEvents,
+		exportArms: exportArms,
+		exportInstrumentEventMappings: exportInstrumentEventMappings,
+		exportUsers: exportUsers,
+		exportVersion: exportVersion,
+		redcapAPICall: redcapAPICall
+	};
+});
