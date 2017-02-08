@@ -10,7 +10,7 @@ if(fs.readdirSync('./').indexOf('config')==-1){
 const PORT= process.env.PORT || 8080;
 function handleRequest(request, response){
    if(request.url!=='/favicon.ico'){
-       var res='{"Hello": "at '+Date()+' Path Hit: ' + request.url + '"}'
+       var res='{"Hello": "hi Stony Brook at '+Date()+' Path Hit: ' + request.url + '"}'
        if(request.url.length>1){
            var cloud = request.url.slice(1).replace(/\?.*/,'')
            console.log('cloud: '+cloud)
